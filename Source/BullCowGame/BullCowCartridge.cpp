@@ -10,9 +10,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     PrintLine(TEXT("Guess the 6 letter word.")); //TODO: Magic number remove!
     PrintLine(TEXT("Press enter to continue..."));
     
-    // Setting Up Game
-    HiddenWord = TEXT("forest"); // Set the HiddenWord
-    // Set lives
+    SetupGame();
 
     // Prompt Player for guess
 }
@@ -45,4 +43,10 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     // Prompt to Play again, Press Enter to Play again?
     // Check User input
     // PlayAgain or Quit
+}
+
+void UBullCowCartridge::SetupGame()
+{
+    HiddenWord = TEXT("forest");
+    Lives = 4;
 }
