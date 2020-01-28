@@ -5,35 +5,35 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
 
-    // Welcoming the Player
-    PrintLine(TEXT("Welcome to Bull Cows!"));
-    PrintLine(TEXT("Guess the 6 letter word.")); //TODO: Magic number remove!
-    PrintLine(TEXT("Press enter to continue..."));
-    
     SetupGame();
-
-    // Prompt Player for guess
+    
+    PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord); // Debug Line
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
-    ClearScreen();
-
-    // Checking PlayerGuess
-
-    if (Input == HiddenWord)
+    if (bGameOver)
     {
-        PrintLine(TEXT("You win!"));
+        ClearScreen();
+        SetupGame();
     }
-    else
+    else // Check PlayerGuess
     {
-        if (Input.Len() != HiddenWord.Len())
+        if (Input == HiddenWord)
         {
-            PrintLine(TEXT("The Hidden Word is 4 characters long, try again!"));
+            PrintLine(TEXT("You have won!"));
+            EndGame();
         }
-        
-        PrintLine(TEXT("You loose... Try again!"));
+        else
+        {
+            if (Input.Len() != HiddenWord.Len())
+            {
+                PrintLine(TEXT("The Hidden Word is %i characters long. \n You have lost!"), HiddenWord.Len());
+                EndGame();
+            }
+        }
     }
+
     // Check if Isogram
     // Prompt to Guess again
     // Check right number of characters
@@ -52,6 +52,19 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 
 void UBullCowCartridge::SetupGame()
 {
+    // Welcoming the Player
+    PrintLine(TEXT("Welcome to Bull Cows!"));
+
     HiddenWord = TEXT("forest");
     Lives = 4;
+    bGameOver = false;
+    
+    PrintLine(TEXT("Guess the %i letter word."), HiddenWord.Len());
+    PrintLine(TEXT("Type in your guess and press enter to continue...")); // Prompt Player for guess
+}
+
+void UBullCowCartridge::EndGame()
+{
+    bGameOver = true;
+    PrintLine(TEXT("Press Enter to play again."));
 }
