@@ -5,15 +5,15 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-    TArray<FString> ValidWords = GetValidWords(Words);
     SetupGame();
+    TArray<FString> ValidWords = GetValidWords(Words);
     
     PrintLine(TEXT("The number of possible words is %i."), Words.Num());
     PrintLine(TEXT("Number of valid words is: %i."), ValidWords.Num());
     PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord); // Debug Line
 }
 
-void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
+void UBullCowCartridge::OnInput(const FString& PlayerInput) // When the player hits enter
 {
     if (bGameOver)
     {
@@ -22,7 +22,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     }
     else // Check PlayerGuess
     {
-        ProcessGuess(Input);
+        ProcessGuess(PlayerInput);
     }
 }
 
@@ -46,7 +46,7 @@ void UBullCowCartridge::EndGame()
     PrintLine(TEXT("\nPress Enter to play again."));
 }
 
-void UBullCowCartridge::ProcessGuess(FString Guess)
+void UBullCowCartridge::ProcessGuess(const FString& Guess)
 {
     if (Guess == HiddenWord)
     {
@@ -87,7 +87,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     PrintLine(TEXT("Guess again, you have %i lives left."), Lives);
 }
 
-bool UBullCowCartridge::IsIsogram(FString Word) const
+bool UBullCowCartridge::IsIsogram(const FString& Word) const
 {
     for (int32 i = 0; i < Word.Len(); i++)
     {
@@ -102,7 +102,7 @@ bool UBullCowCartridge::IsIsogram(FString Word) const
     return true;
 }
 
-TArray<FString> UBullCowCartridge::GetValidWords(TArray<FString> WordList) const
+TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordList) const
 {
     TArray<FString> ValidWords;
     for (FString Word : WordList)
