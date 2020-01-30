@@ -5,6 +5,7 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
+    Isograms = GetValidWords(Words);
     SetupGame();
 }
 
@@ -26,8 +27,7 @@ void UBullCowCartridge::SetupGame()
     // Welcoming the Player
     PrintLine(TEXT("Welcome to Bull Cows!"));
 
-    TArray<FString> ValidWords = GetValidWords(Words);
-    HiddenWord = ValidWords[FMath::RandRange(0, ValidWords.Num() - 1)];
+    HiddenWord = Isograms[FMath::RandRange(0, Isograms.Num() - 1)];
     Lives = HiddenWord.Len();
     bGameOver = false;
     
